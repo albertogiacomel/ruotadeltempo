@@ -3,12 +3,12 @@ import React, { useState, useEffect } from 'react';
 import ReactConfetti from 'react-confetti';
 import { Wheel } from './components/Wheel';
 import { QuizArea } from './components/QuizArea';
-import { ComicButton, ComicBubble, ComicPop } from './components/ComicUI';
+import { ComicPop, ComicBubble, ComicButton } from './components/ComicUI';
 import { SettingsMenu } from './components/SettingsMenu';
 import { getGameItems } from './config/constants';
-import { GameMode, GameState, GameDifficulty } from './types/index';
+import { GameMode, GameState } from './types/index';
 import { useGame } from './useGame';
-import { RefreshCcw, Calendar, Sun, Moon, Play, Volume2, Home, Settings } from 'lucide-react';
+import { Calendar, Sun, Play, Home, Settings, Volume2 } from 'lucide-react';
 import { audioService } from './services/audio';
 
 const App: React.FC = () => {
