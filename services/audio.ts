@@ -8,8 +8,9 @@ const STORE_NAME = 'static_audio';
 const openDB = (): Promise<IDBDatabase> => {
   return new Promise((resolve, reject) => {
     const request = indexedDB.open(DB_NAME, 1);
-    request.onupgradeneeded = () => {
-      const db = request.result;
+    // Fix: Using correct createObjectStore method and consolidating upgrade logic
+    request.onupgradeneeded = (e: any) => {
+      const db = e.target.result;
       if (!db.objectStoreNames.contains(STORE_NAME)) {
         db.createObjectStore(STORE_NAME);
       }
@@ -107,12 +108,10 @@ export const audioService = {
     osc.start(); osc.stop(ctx.currentTime + 0.5);
   },
 
-  // Genera e salva permanentemente l'audio
   preloadAndSave: async (text: string, lang: 'IT' | 'EN') => {
     const key = `${lang}:${text.toLowerCase()}`;
     if (memoryCache.has(key)) return;
 
-    // 1. Controlla se è già in IndexedDB
     const stored = await getFromDB(key);
     if (stored) {
       const buffer = await decodeAudioData(stored, getSfxCtx());
@@ -120,20 +119,19 @@ export const audioService = {
       return;
     }
 
-    // 2. Se non c'è, scaricalo e salvalo (solo se c'è API KEY)
     if (!process.env.API_KEY || process.env.API_KEY === 'undefined') return;
     
     try {
+      // Create fresh instance before call
       const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-      // Utilizziamo la voce 'Erinome' come richiesto
       const voiceName = 'Erinome';
       const response = await ai.models.generateContent({
-        model: "gemini-2.5-pro-preview-tts",
+        model: "gemini-2.5-flash-preview-tts",
         contents: [{ parts: [{ text: lang === 'IT' ? `Dì chiaramente: ${text}` : `Say clearly: ${text}` }] }],
         config: {
           responseModalities: [Modality.AUDIO],
           speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName } } },
-          temperature: 0.25, // Temperatura impostata a 0.25
+          temperature: 0.25,
         },
       });
       
@@ -157,7 +155,6 @@ export const audioService = {
     const key = `${lang}:${text.toLowerCase()}`;
     let buffer = memoryCache.get(key);
 
-    // Fallback immediato se non è in memoria ma magari è nel DB
     if (!buffer) {
       const stored = await getFromDB(key);
       if (stored) {
@@ -173,7 +170,6 @@ export const audioService = {
       source.start();
       return new Promise(resolve => source.onended = resolve);
     } else {
-      // Se proprio non lo abbiamo, usiamo il TTS del browser e accodiamo il salvataggio
       audioService.preloadAndSave(text, lang);
       audioService.speakInstant(text, lang);
       return Promise.resolve();

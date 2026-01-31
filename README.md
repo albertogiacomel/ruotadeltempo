@@ -1,70 +1,68 @@
 # 🎡 Giratempo! - Ruota del Tempo per Bambini
 
-**Giratempo!** è un'applicazione web educativa e interattiva progettata per insegnare ai bambini i giorni della settimana e i mesi dell'anno in modo divertente, colorato e magico. Lo stile grafico si ispira ai fumetti classici (Comic style) con animazioni vivaci e feedback sonori immediati.
+**Giratempo!** è un'applicazione web educativa e interattiva progettata per insegnare ai bambini i giorni della settimana e i mesi dell'anno. Attraverso un design ispirato ai fumetti "Pop Art" e l'uso dell'Intelligenza Artificiale, trasforma l'apprendimento in un'avventura magica.
 
-## ✨ Funzionalità Principali
+## ✨ Funzionalità Avanzate
 
-- **🎡 Ruota Magica**: Gira la ruota per selezionare casualmente un giorno o un mese.
-- **🧠 Quiz Interattivo**: Sfida il bambino a identificare cosa viene "prima" e cosa viene "dopo" l'elemento estratto.
-- **🎭 AI Storytelling**: Una volta completato il quiz, l'intelligenza artificiale (Google Gemini) genera una rima personalizzata e divertente sull'elemento selezionato.
-- **🌍 Bilingue**: Supporto completo per Italiano ed Inglese (testi, UI e rime).
-- **🌗 Dark Mode**: Tema scuro ottimizzato per non affaticare la vista, mantenendo lo stile "Pop Art".
-- **🔊 Audio & Feedback**: Suoni "tick" della ruota, suoni di successo e vibrazioni visive per un'esperienza coinvolgente.
-- **⚡ Performance**: Integrazione ultra-rapida con fallback locale se l'AI è lenta o offline.
+- **🎡 Ruota del Destino**: Un'animazione fluida a 60fps con feedback tattile (visivo) e sonoro che seleziona casualmente un elemento temporale.
+- **🧠 Quiz Dinamico**: Un sistema di trascinamento/selezione che aiuta a comprendere la sequenzialità (Prima/Dopo) con feedback immediato.
+- **🗣️ Magia Vocale (Gemini TTS)**: Utilizza il modello `gemini-2.5-flash-preview-tts` per dare voce ai giorni, ai mesi e alle rime generate, rendendo l'app accessibile anche a chi non sa ancora leggere bene.
+- **🎭 AI Rhyme Generator**: Gemini (`gemini-3-flash-preview`) crea rime personalizzate, brevi e divertenti per ogni vittoria.
+- **💾 Audio Caching (IndexedDB)**: Un sistema intelligente di archiviazione locale salva i file audio generati dall'AI nel browser. Questo garantisce che l'app funzioni velocemente anche con connessioni instabili e riduce le chiamate API.
+- **🌍 Bilingue & Temi**: Supporto completo IT/EN e modalità Dark/Light che trasformano l'intera palette cromatica dello stile Comic.
 
-## 🚀 Tecnologie Utilizzate
+## 🚀 Tecnologie & Architettura
 
-- **Frontend**: React 19 + TypeScript.
-- **Styling**: Tailwind CSS con design system personalizzato (Comic shadows, Bangers font).
-- **AI**: Google Gemini API (`@google/genai`) utilizzando il modello `gemini-3-flash-preview`.
-- **Icone**: Lucide React.
-- **Effetti**: React Confetti per le vittorie.
-- **Audio**: Web Audio API per sintesi sonora di feedback.
+- **Frontend**: React 18.3.1 + TypeScript.
+- **Styling**: Tailwind CSS con utility custom per ombre "Comic" e pattern "Ben-Day dots".
+- **AI Engine**: 
+  - `gemini-3-flash-preview`: Generazione di contenuti testuali creativi (rime).
+  - `gemini-2.5-flash-preview-tts`: Sintesi vocale naturale ad alta fedeltà.
+- **Persistence**: IndexedDB tramite Web API nativa per il caching dei blob audio PCM.
+- **Audio**: Web Audio API per la gestione di SFX (oscillatori sintetizzati) e riproduzione dei buffer vocali a 24kHz.
 
 ## 🛠️ Configurazione e Installazione
 
-Il progetto utilizza **Vite** come build tool.
+Il progetto è ottimizzato per **Vite**.
 
 ### Prerequisiti
-Assicurati di avere Node.js installato sul tuo sistema.
+Node.js (v18+) e una chiave API di Google AI Studio.
 
 ### Installazione
-1. Clona il repository o scarica i file.
-2. Installa le dipendenze:
+1. Installa le dipendenze:
    ```bash
    npm install
    ```
 
-### Chiave API Gemini
-Per attivare le rime magiche generate dall'AI, è necessaria una chiave API di Google AI Studio.
-1. Ottieni una chiave su [ai.google.dev](https://ai.google.dev/).
-2. Crea un file `.env` nella root del progetto:
-   ```env
-   VITE_API_KEY=tua_chiave_api_qui
-   ```
-   *(Nota: Il sistema è configurato per usare `process.env.API_KEY` tramite la configurazione di Vite).*
+### Chiave API
+L'app si aspetta la chiave API in un file `.env` (gestita da Vite):
+```env
+API_KEY=la_tua_chiave_gemini
+```
+*Nota: La configurazione di Vite in `vite.config.ts` espone automaticamente questa variabile al client.*
 
-### Avvio in locale
+### Avvio
 ```bash
 npm run dev
 ```
 
-## 🧠 Logica del Gioco
+## 🧠 Logica Didattica
 
-1. **Menu**: Il bambino sceglie tra "Giorni" o "Mesi" e imposta la difficoltà (Facile: opzioni ordinate; Difficile: opzioni mescolate).
-2. **Spin**: Si gira la ruota con un click. L'animazione dura 4 secondi con accelerazione e decelerazione naturale.
-3. **Domanda**: Appare il quiz "Prima e Dopo". Il bambino deve trascinare/cliccare le tessere corrette.
-4. **Premio AI**: Al successo, viene mostrata una rima. Il gioco tenta di contattare Gemini; se la risposta non arriva entro 800ms, mostra una rima predefinita dalla banca dati locale per garantire un'esperienza senza attese.
+1. **Esplorazione**: La ruota introduce il concetto di "casualità controllata" all'interno di un set chiuso (7 giorni o 12 mesi).
+2. **Consolidamento**: Il quiz forza il recupero mnemonico della posizione dell'elemento rispetto ai suoi vicini.
+3. **Ricompensa**: La rima AI funge da rinforzo positivo, associando un momento di ilarità o curiosità all'elemento appena appreso.
+4. **Multimodalità**: L'unione di testo, colore, suono e voce stimola diversi canali di apprendimento (visivo, uditivo, cinestetico).
 
 ## 🎨 Design System
 
-L'app utilizza classi Tailwind personalizzate per l'effetto "Comic":
-- `shadow-comic`: Ombre nere piene e spesse.
-- `bg-grid-pattern`: Sfondo a puntini tipico dei fumetti stampati.
-- **Colori**: Palette vibrante (Comic Yellow, Cyan, Red, Green).
-- **Tipografia**: *Bangers* per i titoli (stile supereroe) e *Comic Neue* per i testi leggibili.
+- **Shadows**: `shadow-comic` (4px offset nero pieno).
+- **Typography**: 
+  - *Bangers*: Per i titoli e gli elementi d'azione (enfasi).
+  - *Comic Neue*: Per le istruzioni e le rime (leggibilità).
+  - *Titillium Web*: Per l'interfaccia di sistema.
+- **Feedback**: Sistema di vibrazione visiva (`animate-shake`) per gli errori e `confetti` per la vittoria.
 
 ---
 
-Creato con ❤️ per i piccoli esploratori del tempo.
+Sviluppato con visione senior per un'esperienza utente "world-class".
 Powered by **Google Gemini API**.

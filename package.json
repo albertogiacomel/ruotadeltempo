@@ -11,12 +11,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "@types/node": "^20.11.24",
-    "@types/react": "^18.2.64",
-    "@types/react-dom": "^18.2.21",
-    "@vercel/analytics": "^1.5.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "@vercel/analytics": "^1.6.1",
     "@google/genai": "^1.38.0",
     "lucide-react": "^0.463.0",
     "react-confetti": "^6.2.1",
@@ -27,6 +24,10 @@
     "typescript": "^5.2.2"
   },
   "devDependencies": {
+    "@types/node": "^20.11.24",
+    "@types/react": "18.3.1",
+    "@types/react-dom": "18.3.1",
+    "@types/react-confetti": "^6.1.1",
     "vite": "^5.1.4"
   }
 }
