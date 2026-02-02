@@ -2,8 +2,6 @@
 import { GoogleGenAI } from "@google/genai";
 import { TimeItem, Language, GameDifficulty } from "./types/index";
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-
 // BANCA DELLE RIME LOCALE (Fallback immediato)
 export const LOCAL_RHYMES: Record<Language, Record<string, string>> = {
   IT: {
@@ -55,16 +53,17 @@ export const generateFunFact = async (item: string, fallbackErrorText: string, l
                         LOCAL_RHYMES[lang]?.[Object.keys(LOCAL_RHYMES[lang])[0]] || 
                         `${fallbackErrorText} ${item}!`;
 
-  if (!process.env.API_KEY || process.env.API_KEY === 'undefined') {
+  const apiKey = process.env.API_KEY;
+  if (!apiKey || apiKey === 'undefined') {
     return localFallback;
   }
 
   try {
+    const ai = new GoogleGenAI({ apiKey });
     const prompt = lang === 'IT'
       ? `Scrivi una rima brevissima (max 10 parole) per un bambino su: "${item}".`
       : `Write a tiny rhyme (max 10 words) for a kid about: "${item}".`;
 
-    // Updated to gemini-3-flash-preview for basic text tasks according to guidelines
     const response = await ai.models.generateContent({
       model: 'gemini-3-flash-preview',
       contents: prompt,

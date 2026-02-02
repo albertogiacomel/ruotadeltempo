@@ -8,7 +8,6 @@ const STORE_NAME = 'static_audio';
 const openDB = (): Promise<IDBDatabase> => {
   return new Promise((resolve, reject) => {
     const request = indexedDB.open(DB_NAME, 1);
-    // Fix: Using correct createObjectStore method and consolidating upgrade logic
     request.onupgradeneeded = (e: any) => {
       const db = e.target.result;
       if (!db.objectStoreNames.contains(STORE_NAME)) {
@@ -119,11 +118,11 @@ export const audioService = {
       return;
     }
 
-    if (!process.env.API_KEY || process.env.API_KEY === 'undefined') return;
+    const apiKey = process.env.API_KEY;
+    if (!apiKey || apiKey === 'undefined') return;
     
     try {
-      // Create fresh instance before call
-      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+      const ai = new GoogleGenAI({ apiKey });
       const voiceName = 'Erinome';
       const response = await ai.models.generateContent({
         model: "gemini-2.5-flash-preview-tts",
