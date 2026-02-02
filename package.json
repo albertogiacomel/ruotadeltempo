@@ -17,7 +17,6 @@
     "@google/genai": "^1.38.0",
     "lucide-react": "^0.463.0",
     "react-confetti": "^6.2.1",
-    "@vitejs/plugin-react": "^4.2.1",
     "autoprefixer": "^10.4.18",
     "postcss": "^8.4.35",
     "tailwindcss": "^3.4.1",
@@ -27,7 +26,7 @@
     "@types/node": "^20.11.24",
     "@types/react": "18.3.1",
     "@types/react-dom": "18.3.1",
-    "@types/react-confetti": "^6.1.1",
+    "@vitejs/plugin-react": "^4.2.1",
     "vite": "^5.1.4"
   }
 }
