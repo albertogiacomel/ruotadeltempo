@@ -59,7 +59,7 @@ export const QuizArea: React.FC<QuizAreaProps> = ({ currentItem, allItems, onCom
           </div>
           <div 
             onClick={() => { setSelectedPrev(null); audioService.playTick(); }}
-            className={`w-full min-h-[70px] md:min-h-[140px] border-[3px] md:border-[6px] border-dashed rounded-xl md:rounded-[2rem] flex items-center justify-center shadow-comic transition-all cursor-pointer 
+            className={`w-full min-h-[60px] md:min-h-[120px] lg:min-h-[140px] border-[3px] md:border-[6px] border-dashed rounded-xl md:rounded-[2rem] flex items-center justify-center shadow-comic transition-all cursor-pointer 
               ${theme === 'dark' ? (selectedPrev ? 'bg-slate-100' : 'bg-slate-800') : (selectedPrev ? 'bg-white' : 'bg-slate-50')}
               ${selectedPrev ? 'border-black scale-100 ring-4 ring-comic-cyan/20' : 'border-slate-400 hover:border-comic-cyan scale-95'} 
               ${feedback === 'error' && selectedPrev !== correctPrev.label ? 'animate-shake border-comic-red bg-red-100' : ''}`}
@@ -76,7 +76,7 @@ export const QuizArea: React.FC<QuizAreaProps> = ({ currentItem, allItems, onCom
             <div className={`font-heading px-3 md:px-6 py-0.5 md:py-1 rounded-full border-[3px] md:border-[5px] border-black shadow-comic-sm text-[8px] md:text-lg uppercase ${theme === 'dark' ? 'bg-black text-comic-yellow' : 'bg-black text-white'}`}>
               {t.todayIs}
             </div>
-            <div className="w-full min-h-[80px] md:min-h-[160px] bg-comic-yellow border-[4px] md:border-[8px] border-black rounded-xl md:rounded-[2rem] shadow-[0_6px_0_#000] md:shadow-[0_12px_0_#000] flex items-center justify-center transform rotate-1 z-10">
+            <div className="w-full min-h-[70px] md:min-h-[140px] lg:min-h-[160px] bg-comic-yellow border-[4px] md:border-[8px] border-black rounded-xl md:rounded-[2rem] shadow-[0_6px_0_#000] md:shadow-[0_12px_0_#000] flex items-center justify-center transform rotate-1 z-10">
                 <span className="font-heading text-xl md:text-4xl lg:text-6xl text-center leading-none px-2 uppercase text-black">
                   {currentItem.label}
                 </span>
@@ -90,7 +90,7 @@ export const QuizArea: React.FC<QuizAreaProps> = ({ currentItem, allItems, onCom
           </div>
           <div 
             onClick={() => { setSelectedNext(null); audioService.playTick(); }}
-            className={`w-full min-h-[70px] md:min-h-[140px] border-[3px] md:border-[6px] border-dashed rounded-xl md:rounded-[2rem] flex items-center justify-center shadow-comic transition-all cursor-pointer 
+            className={`w-full min-h-[60px] md:min-h-[120px] lg:min-h-[140px] border-[3px] md:border-[6px] border-dashed rounded-xl md:rounded-[2rem] flex items-center justify-center shadow-comic transition-all cursor-pointer 
               ${theme === 'dark' ? (selectedNext ? 'bg-slate-100' : 'bg-slate-800') : (selectedNext ? 'bg-white' : 'bg-slate-50')}
               ${selectedNext ? 'border-black scale-100 ring-4 ring-comic-red/20' : 'border-slate-400 hover:border-comic-red scale-95'} 
               ${feedback === 'error' && selectedNext !== correctNext.label ? 'animate-shake border-comic-red bg-red-100' : ''}`}
@@ -107,11 +107,11 @@ export const QuizArea: React.FC<QuizAreaProps> = ({ currentItem, allItems, onCom
         <div className={`border-[3px] md:border-[6px] border-black rounded-[1.5rem] md:rounded-[3rem] p-3 md:p-6 flex flex-col h-full shadow-inner relative overflow-hidden transition-colors ${theme === 'dark' ? 'bg-slate-900/60' : 'bg-slate-100'}`}>
           <div className="absolute inset-0 bg-grid-pattern opacity-30 pointer-events-none"></div>
           
-          <p className={`text-center font-heading text-sm md:text-2xl mb-2 md:mb-4 uppercase tracking-widest relative z-10 ${theme === 'dark' ? 'text-slate-400' : 'text-slate-500'}`}>
+          <p className={`text-center font-heading text-xs md:text-xl lg:text-2xl mb-2 md:mb-4 uppercase tracking-widest relative z-10 ${theme === 'dark' ? 'text-slate-400' : 'text-slate-500'}`}>
             {t.fillInstruction}
           </p>
           
-          <div className="grid grid-cols-4 gap-2 md:gap-4 overflow-y-auto pr-1 flex-1 content-center relative z-10">
+          <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-2 md:gap-4 overflow-y-auto pr-1 flex-1 content-center relative z-10 pb-4">
             {options.map((item) => {
                const isSelected = selectedPrev === item.label || selectedNext === item.label;
                return (
@@ -119,7 +119,6 @@ export const QuizArea: React.FC<QuizAreaProps> = ({ currentItem, allItems, onCom
                   key={item.id}
                   onClick={() => {
                     audioService.playTick();
-                    // IMPORTANTE: Manteniamo la lettura del giorno/mese selezionato per scopi didattici
                     audioService.speakWithGemini(item.label, language);
                     
                     if (!selectedPrev) setSelectedPrev(item.label);
@@ -130,12 +129,12 @@ export const QuizArea: React.FC<QuizAreaProps> = ({ currentItem, allItems, onCom
                     }
                   }}
                   disabled={isSelected}
-                  className={`relative group h-10 md:h-20 lg:h-24 border-[2px] md:border-[5px] border-black rounded-lg md:rounded-2xl font-heading text-xs md:text-2xl lg:text-3xl transition-all 
+                  className={`relative group min-h-[40px] md:min-h-[70px] lg:min-h-[80px] border-[2px] md:border-[5px] border-black rounded-lg md:rounded-2xl font-heading text-xs md:text-2xl lg:text-3xl transition-all p-2
                     ${isSelected ? 'bg-slate-300 opacity-40 grayscale scale-90 -rotate-1 cursor-default text-slate-600 border-dashed' : 'bg-white shadow-comic-sm hover:-translate-y-1 active:translate-y-0.5 hover:rotate-1 text-black'}
                   `}
                   style={{ backgroundColor: isSelected ? undefined : item.color }}
                 >
-                  <span className="relative z-10 uppercase tracking-tighter sm:tracking-normal">{item.label}</span>
+                  <span className="relative z-10 uppercase tracking-tighter sm:tracking-normal line-clamp-1">{item.label}</span>
                   {!isSelected && <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 rounded-lg md:rounded-2xl transition-opacity"></div>}
                 </button>
                );
@@ -147,14 +146,14 @@ export const QuizArea: React.FC<QuizAreaProps> = ({ currentItem, allItems, onCom
       <div className="flex gap-3 md:gap-6 w-full max-w-4xl mx-auto shrink-0 pb-2">
         <button 
           onClick={() => { setSelectedPrev(null); setSelectedNext(null); audioService.playTick(); }}
-          className={`flex-1 border-[3px] md:border-[5px] border-black rounded-lg md:rounded-2xl py-2 md:py-4 font-heading text-sm md:text-2xl active-press shadow-comic transition-all ${theme === 'dark' ? 'bg-slate-700 text-white hover:bg-slate-600' : 'bg-white text-black hover:bg-slate-50'}`}
+          className={`flex-1 border-[3px] md:border-[5px] border-black rounded-lg md:rounded-2xl py-2 md:py-4 font-heading text-xs md:text-2xl active-press shadow-comic transition-all ${theme === 'dark' ? 'bg-slate-700 text-white hover:bg-slate-600' : 'bg-white text-black hover:bg-slate-50'}`}
         >
           {t.cancel}
         </button>
         <button 
           onClick={checkAnswers}
           disabled={!selectedPrev || !selectedNext}
-          className={`flex-[1.5] border-[3px] md:border-[5px] border-black rounded-lg md:rounded-2xl py-2 md:py-4 font-heading text-base md:text-3xl lg:text-4xl active-press transition-all
+          className={`flex-[1.5] border-[3px] md:border-[5px] border-black rounded-lg md:rounded-2xl py-2 md:py-4 font-heading text-sm md:text-3xl lg:text-4xl active-press transition-all
             ${!selectedPrev || !selectedNext ? (theme === 'dark' ? 'bg-slate-800 text-slate-700 border-slate-700' : 'bg-slate-200 text-slate-400 border-slate-300') : 'bg-comic-green text-black shadow-comic hover:scale-[1.02]'}
           `}
         >

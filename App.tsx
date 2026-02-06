@@ -47,12 +47,10 @@ const App: React.FC = () => {
     };
   }, []);
 
-  // Pre-genera e salva tutti i file audio necessari come asset "statici" locali
   useEffect(() => {
     const languages: ('IT' | 'EN')[] = ['IT', 'EN'];
     const modes: GameMode[] = [GameMode.DAYS, GameMode.MONTHS];
     
-    // Funzione per precaricare tutto silenziosamente
     const syncAllAudio = async () => {
       for (const lang of languages) {
         for (const m of modes) {
@@ -92,12 +90,11 @@ const App: React.FC = () => {
   return (
     <div className={`min-h-[100dvh] w-full flex items-center justify-center font-sans overflow-hidden transition-colors duration-500 ${theme === 'dark' ? 'bg-black' : 'bg-slate-900'}`}>
       
-      <div className={`w-full h-[100dvh] 2xl:h-[min(90vh,1000px)] 2xl:aspect-[16/10] 2xl:max-w-[1400px] flex flex-col overflow-hidden relative 2xl:rounded-[3rem] 2xl:border-[10px] 2xl:border-black 2xl:shadow-[0_0_60px_rgba(0,0,0,0.8)] transition-colors duration-500 ${theme === 'dark' ? 'bg-slate-800 bg-grid-pattern-dark' : 'bg-white bg-grid-pattern'}`}>
+      <div className={`w-full h-[100dvh] 2xl:h-[95vh] 2xl:max-w-[1600px] flex flex-col overflow-hidden relative 2xl:rounded-[3rem] 2xl:border-[10px] 2xl:border-black 2xl:shadow-[0_0_60px_rgba(0,0,0,0.8)] transition-colors duration-500 ${theme === 'dark' ? 'bg-slate-800 bg-grid-pattern-dark' : 'bg-white bg-grid-pattern'}`}>
         
         {showConfetti && <ReactConfetti width={windowSize.width} height={windowSize.height} recycle={false} />}
         <ComicPop text={t.successPop} show={showPop} onClick={() => setShowPop(false)} />
         
-        {/* Nuovo Menu Impostazioni */}
         <SettingsMenu 
           isOpen={isSettingsOpen}
           onClose={() => setIsSettingsOpen(false)}
@@ -179,7 +176,7 @@ const App: React.FC = () => {
               
               {isWheelVisible && (
                 <div className={`transition-all duration-700 flex items-center justify-center z-20 overflow-visible p-6 md:p-12
-                   ${isWheelLarge ? 'w-full h-full max-h-full max-w-full' : 'w-full h-[55vh]'}
+                   ${isWheelLarge ? 'w-full h-full max-h-full max-w-full' : 'w-full h-[45vh] lg:h-[50vh]'}
                 `}>
                    <div className="relative flex items-center justify-center w-full h-full">
                      <Wheel 
@@ -235,13 +232,11 @@ const App: React.FC = () => {
                     </h2>
                     
                     <div className="relative w-full max-w-2xl transform rotate-1">
-                      {/* Riquadro Magico */}
                       <div className={`${theme === 'dark' ? 'bg-slate-700 border-slate-600' : 'bg-white border-black'} border-[4px] md:border-[6px] shadow-comic rounded-2xl p-4 md:p-8 w-full transition-colors relative`}>
                         <p className={`font-comic text-lg md:text-3xl lg:text-4xl font-black italic leading-snug mb-2 ${theme === 'dark' ? 'text-slate-100' : 'text-slate-800'}`}>
                           {funFact || t.magicLoading}
                         </p>
 
-                        {/* Pulsante Riascolta Audio Integrato nel Riquadro */}
                         {funFact && (
                           <div className="flex justify-end mt-4">
                             <button 
@@ -258,7 +253,6 @@ const App: React.FC = () => {
                         )}
                       </div>
                       
-                      {/* Mascotte icona fluttuante */}
                       {funFact && (
                         <div className="absolute -top-6 -left-6 md:-top-10 md:-left-10 w-12 h-12 md:w-20 md:h-20 bg-comic-yellow border-[3px] md:border-[5px] border-black rounded-full flex items-center justify-center animate-pulse z-30 shadow-comic-sm">
                            <span className="text-xl md:text-4xl">✨</span>
